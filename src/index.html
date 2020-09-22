@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Docs Downloader</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-wrapper" style="background-color: #1d7781">
+        <a class="brand-logo center"
+          ><img src="./icons/scribd.png" style="width: 100px"
+        /></a>
+      </div>
+    </nav>
+    <ul></ul>
+    <div class="container">
+      <form>
+        <label>URL</label>
+        <input
+          type="text"
+          id="url"
+          placeholder="Example: https://es.scribd.com/document/17318516/History-Magazine"
+          autofocus
+          required
+        />
+        <div id="action" class="center-align">
+          <button class="waves-effect waves-light btn center" type="submit">
+            Descargar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
+      const action = document.querySelector("#action");
+      document.querySelector("form").addEventListener("submit", submitForm);
+
+      function submitForm(e) {
+        e.preventDefault();
+
+        const url = document.querySelector("#url").value;
+        let re = /.com\/\D+\/(\d+)\/(\D+)/;
+        //let idbook = url.match(re)[1];
+        let idbook = url.match(re)[1];
+        let docName = url.match(re)[2];
+        if (idbook !== null) {
+          action.innerHTML =
+            "<img style='width:100px' src='./icons/loadingscribd.gif'/>";
+          ipcRenderer.send("document:get", idbook, docName);
+        } else {
+          action.innerHTML +=
+            "<div class='center card-panel pink lighten-3' style='padding:2px'>No válido</div>";
+        }
+      }
+
+      ipcRenderer.on("state:finished", function () {
+        document.querySelector("#url").value = "";
+        action.innerHTML =
+          "<button class='waves-effect waves-light btn center' type='submit'>Descargar</button><div class='center card-panel teal accent-2' style='padding:2px'>Finalizado</div><div style='font-size:10px'>Guardado en la carpeta 'Downloads' ubicado en el directorio del programa. Luego de la conversión espera unos segundos hasta que el archivo este disponible</div>";
+      });
+    </script>
+  </body>
+</html>
