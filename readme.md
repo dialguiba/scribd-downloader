@@ -8,3 +8,7 @@ YOU CAN DOWNLOAD THE APPLICATION FROM HERE
 ![2](/images/2.jpg)
 
 ![3](/images/3.jpg)
+
+## **Also, if you want to support me you can do it here :) :**
+
+[![coffee](https://img.buymeacoffee.com/api/?name=dialguiba&size=200&bg-image=bmc)](https://www.buymeacoffee.com/dialguiba)
