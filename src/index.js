@@ -130,22 +130,13 @@ let getDocument = async (idbook, docName) => {
 
     const browser = await puppeteer.launch({
       headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-      ],
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
     });
     const initPage = await browser.newPage();
-    await initPage.goto(
-      `https://es.scribd.com/embeds/${idbook}/content?start_page=1`
-    );
+    await initPage.goto(`https://es.scribd.com/embeds/${idbook}/content?start_page=1`);
     //!Numero de paginas
     const elementPages = await initPage.$(".total_pages");
-    const textPages = await initPage.evaluate(
-      (elementPages) => elementPages.textContent,
-      elementPages
-    );
+    const textPages = await initPage.evaluate((elementPages) => elementPages.textContent, elementPages);
     const pagesNumber = textPages.match(/\d+/)[0];
     console.log(pagesNumber);
 
@@ -154,11 +145,7 @@ let getDocument = async (idbook, docName) => {
       concurrency: Cluster.CONCURRENCY_CONTEXT,
       maxConcurrency: 3,
       headless: true,
-      args: [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-dev-shm-usage",
-      ],
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
     });
 
     /*  doc.pipe(fs.createWriteStream("output.pdf")); */
@@ -177,11 +164,13 @@ let getDocument = async (idbook, docName) => {
         let example3 = document.querySelector("#fb-root");
         let example4 = document.querySelector(".mobile_overlay");
         let example5 = document.querySelector("#font_preload_bed");
+        let example6 = document.querySelector(".osano-cm-window__dialog");
 
         example.parentNode.removeChild(example);
         example3.parentNode.removeChild(example3);
         example4.parentNode.removeChild(example4);
         example5.parentNode.removeChild(example5);
+        example6.parentNode.removeChild(example6);
       });
       //elemento
       let actualPage = url.match(/start_page=(\d+)/)[1];
@@ -212,9 +201,7 @@ let getDocument = async (idbook, docName) => {
     });
 
     for (i = 1; i <= pagesNumber; i++) {
-      cluster.queue(
-        `https://es.scribd.com/embeds/${idbook}/content?start_page=${i}&view_mode=slideshow`
-      );
+      cluster.queue(`https://es.scribd.com/embeds/${idbook}/content?start_page=${i}&view_mode=slideshow`);
     }
 
     // Shutdown after everything is done
@@ -251,18 +238,9 @@ function createPdf(numberPages, fileName) {
       align: "center",
     })
     .fontSize(12);
-  doc
-    .text("Desarrollado por: dialguiba", { align: "center" })
-    .fontSize(12)
-    .moveDown(8);
+  doc.text("Desarrollado por: dialguiba", { align: "center" }).fontSize(12).moveDown(8);
 
-  doc
-    .text(
-      "Si este servicio de descarga te sirvió y gustas apoyar puedes hacerlo en:",
-      { align: "center" }
-    )
-    .fontSize(15)
-    .moveDown(1);
+  doc.text("Si este servicio de descarga te sirvió y gustas apoyar puedes hacerlo en:", { align: "center" }).fontSize(15).moveDown(1);
   doc
     .text(
       "https://www.buymeacoffee.com/dialguiba",
